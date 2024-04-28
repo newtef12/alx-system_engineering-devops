@@ -1,10 +1,13 @@
 #!/bin/bash
 
-# Read input from stdin
-read input
+# Check if there's input
+if [ -z "$1" ]; then
+    echo "Usage: $0 <string>"
+    exit 1
+fi
 
 # Reverse the input using rev command
-reversed=$(echo "$input" | rev)
+reversed=$(echo "$1" | rev)
 
 # Print the reversed input
 echo "$reversed"
