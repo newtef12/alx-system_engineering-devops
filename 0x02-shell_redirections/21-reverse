@@ -1,2 +1,10 @@
 #!/bin/bash
-find . -empty | rev | cut -d '/' -f 1 | rev
+
+# Read input from stdin
+read input
+
+# Reverse the input using rev command
+reversed=$(echo "$input" | rev)
+
+# Print the reversed input
+echo "$reversed"
