@@ -1,5 +1,4 @@
 #!/bin/bash
 
 # Find all empty files and directories in the current directory and sub-directories
-find . -empty -exec basename {} \;
-
+find . -empty -exec sh -c 'for path; do filename=${path##*/}; echo "$filename"; done' sh {} +
