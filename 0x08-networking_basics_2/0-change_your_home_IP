@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Change localhost IP to 127.0.0.2
-sudo sed -i 's/^127\.0\.0\.1\s*localhost/127.0.0.2 localhost/' /etc/hosts
+sudo sed -i 's/^127\.0\.0\.1\s*localhost$/127.0.0.2 localhost/' /etc/hosts
 
 # Change facebook.com IP to 8.8.8.8
-sudo sed -i 's/^.*facebook.com/8.8.8.8 facebook.com/' /etc/hosts
+sudo sed -i 's/^.*facebook.com$/8.8.8.8 facebook.com/' /etc/hosts
