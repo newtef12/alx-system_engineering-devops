@@ -1,26 +1,36 @@
-#!/usr/bin/python3
-"""Python script that that uses REST API, for a given employee ID,
-   returns information about his/her TODO list progress
-"""
 import requests
 import sys
 
+def get_employee_todo_progress(employee_id):
+    user_url = f'https://jsonplaceholder.typicode.com/users/{employee_id}'
+    todos_url = f'https://jsonplaceholder.typicode.com/todos?userId={employee_id}'
+    
+    user_response = requests.get(user_url)
+    todos_response = requests.get(todos_url)
+    
+    if user_response.status_code != 200 or todos_response.status_code != 200:
+        print("Error fetching data")
+        return
+    
+    user = user_response.json()
+    todos = todos_response.json()
+    
+    employee_name = user.get('name')
+    total_tasks = len(todos)
+    completed_tasks = [todo for todo in todos if todo.get('completed')]
+    number_of_done_tasks = len(completed_tasks)
+    
+    print(f"Employee {employee_name} is done with tasks({number_of_done_tasks}/{total_tasks}):")
+    
+    for task in completed_tasks:
+        print(f"\t {task.get('title')}")
+    
 if __name__ == "__main__":
-    emp_id = sys.argv[1]
-    name = requests.get("http://jsonplaceholder.typicode.com/users/{}"
-                        .format(emp_id)).json().get("name")
-    total_tasks = 0
-    done_tasks = []
-    req = requests.get("http://jsonplaceholder.typicode.com/todos").json()
-
-    for task in req:
-        if (task.get("userId") == int(emp_id)):
-            total_tasks += 1
-            if (task.get("completed")):
-                done_tasks.append(task.get("title"))
-
-    print("Employee {} is done with tasks({:d}/{:d}):"
-          .format(name, len(done_tasks), total_tasks))
-
-    for item in done_tasks:
-        print("\t {}".format(item))
+    if len(sys.argv) != 2:
+        print("Usage: python3 script.py <employee_id>")
+    else:
+        try:
+            employee_id = int(sys.argv[1])
+            get_employee_todo_progress(employee_id)
+        except ValueError:
+            print("Please provide a valid integer as employee ID")
